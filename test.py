@@ -74,31 +74,56 @@ class FlaskTests(TestCase):
             self.assertIn("Points", html)
             self.assertIn('id="points"', html)
 
-    def test_word_submission(self):
+    def test_valid_word_submission(self):
+        """Tests for a word that exists in the words list and on the board."""
+
         with self.client as client:
-            with client.session_transaction() as change_session:
-                change_session["board"] = [
-                    ["A", "A", "A", "A", "A"],
-                    ["A", "A", "A", "A", "A"],
-                    ["C", "A", "A", "A", "A"],
-                    ["A", "A", "A", "A", "A"],
-                    ["T", "A", "A", "A", "A"],
-                ]
-
-            resp = client.get("/game/guess?word=zzzz")
-            self.assertEqual(resp.json["result"], "not-a-word")
-
-            resp = client.get("/game/guess?word=zoozoo")
-            self.assertEqual(resp.json["result"], "not-on-board")
+            self.save_board_to_session(client)
 
             resp = client.get("/game/guess?word=cat")
             self.assertEqual(resp.json["result"], "ok")
 
+    def test_invalid_word_submission(self):
+        """Tests for a word that exists in the words list but not on the board."""
+
+        with self.client as client:
+            self.save_board_to_session(client)
+
+            resp = client.get("/game/guess?word=zoozoo")
+            self.assertEqual(resp.json["result"], "not-on-board")
+
+    def test_nonword_submission(self):
+        """Tests for nonwords."""
+
+        with self.client as client:
+            self.save_board_to_session(client)
+
+            resp = client.get("/game/guess?word=zzzz")
+            self.assertEqual(resp.json["result"], "not-a-word")
+
             resp = client.get("/game/guess?word=555")
             self.assertEqual(resp.json["result"], "not-a-word")
 
+    def test_incorrect_syntax_for_word_submission(self):
+        """Tests for incorrect URL syntax when guessing a word."""
+
+        with self.client as client:
             resp = client.get("/game/guess?word=")
             self.assertEqual(resp.status_code, 400)
 
             resp = client.get("/game/guess")
             self.assertEqual(resp.status_code, 400)
+
+    # ==================================================
+
+    def save_board_to_session(self, client):
+        """Helper method to create a sample test board and save it to the Flask session."""
+
+        with client.session_transaction() as change_session:
+            change_session["board"] = [
+                ["A", "A", "A", "A", "A"],
+                ["A", "A", "A", "A", "A"],
+                ["C", "A", "A", "A", "A"],
+                ["A", "A", "A", "A", "A"],
+                ["T", "A", "A", "A", "A"],
+            ]
