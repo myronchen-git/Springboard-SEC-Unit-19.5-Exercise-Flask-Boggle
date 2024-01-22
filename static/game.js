@@ -40,7 +40,13 @@ class Game {
       const response = await axios.get("/game/guess", { params: { word } });
       return response.data.result.replaceAll("-", " ");
     } catch (e) {
-      console.log("Error when contacting /game/guess.");
+      if (e.code === "ERR_BAD_REQUEST") {
+        console.log(
+          `status: ${e.response.status}\nstatusText: ${e.response.statusText}\ndata: ${e.response.data}`
+        );
+      } else {
+        console.log("Error when contacting /game/guess.");
+      }
     }
   }
 

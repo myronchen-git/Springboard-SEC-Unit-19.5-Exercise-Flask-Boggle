@@ -38,5 +38,8 @@ def route_game():
 def route_guess():
     """Takes the word argument from the URL and checks if it is valid.  Returns a JSON."""
 
+    if not request.args.get("word", ""):
+        return "URL word argument can not be empty.", 400
+
     result = boggle_game.check_valid_word(session["board"], request.args["word"])
     return jsonify(result=result)
