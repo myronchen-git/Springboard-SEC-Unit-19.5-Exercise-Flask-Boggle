@@ -1,6 +1,11 @@
 class Game {
+  static $guessResult = $("#guess-result");
+
   constructor() {
     $("#form-guess-word").submit(this.handleSubmit.bind(this));
+
+    this.points = 0;
+    this.foundWords = new Set();
   }
 
   /**
@@ -14,7 +19,14 @@ class Game {
 
     const word = $("#form-guess-word__input-guessed-word").val();
     const result = await this.checkWord(word);
-    $("#guess-result").text(result);
+
+    if (result === "ok" && !this.acceptSubmittedWord(word)) {
+      Game.$guessResult.text("already scored");
+    } else {
+      Game.$guessResult.text(result);
+    }
+
+    $("#points").text(this.points);
   }
 
   /**
@@ -29,6 +41,22 @@ class Game {
       return response.data.result.replaceAll("-", " ");
     } catch (e) {
       console.log("Error when contacting /game/guess.");
+    }
+  }
+
+  /**
+   * Puts a valid word into a data structure for keeping track of submitted words and increases points.
+   *
+   * @param {String} word A valid word
+   * @returns true if the word has not been submitted before.
+   */
+  acceptSubmittedWord(word) {
+    if (!this.foundWords.has(word)) {
+      this.foundWords.add(word);
+      this.points += word.length;
+      return true;
+    } else {
+      return false;
     }
   }
 }

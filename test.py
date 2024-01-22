@@ -51,6 +51,16 @@ class FlaskTests(TestCase):
             self.assertIn("</form>", html)
             self.assertIn('name="guessed-word"', html)
 
+    def test_header_creation(self):
+        with app.test_client() as client:
+            resp = client.get("/game")
+            html = resp.get_data(as_text=True)
+
+            self.assertEqual(resp.status_code, 200)
+
+            self.assertIn("Points", html)
+            self.assertIn('id="points"', html)
+
     def test_word_submission(self):
         with app.test_client() as client:
             with client.session_transaction() as change_session:
