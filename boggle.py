@@ -1,13 +1,11 @@
 """Utilities related to Boggle game."""
 
-from random import choice
 import string
+from random import choice
 
 
-class Boggle():
-
+class Boggle:
     def __init__(self):
-
         self.words = self.read_dict("words.txt")
 
     def read_dict(self, dict_path):
@@ -32,15 +30,16 @@ class Boggle():
     def check_valid_word(self, board, word):
         """Check if a word is a valid word in the dictionary and/or the boggle board"""
 
-        word_exists = word in self.words
-        valid_word = self.find(board, word.upper())
+        upper_word = word.upper()
+        word_exists = upper_word in self.words
+        valid_word = self.find(board, upper_word)
 
         if word_exists and valid_word:
             result = "ok"
         elif word_exists and not valid_word:
             result = "not-on-board"
         else:
-            result = "not-word"
+            result = "not-a-word"
 
         return result
 

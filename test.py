@@ -63,7 +63,7 @@ class FlaskTests(TestCase):
                 ]
 
             resp = client.get("/game/guess?word=zzzz")
-            self.assertEqual(resp.json["result"], "not-word")
+            self.assertEqual(resp.json["result"], "not-a-word")
 
             resp = client.get("/game/guess?word=zoozoo")
             self.assertEqual(resp.json["result"], "not-on-board")
@@ -72,4 +72,4 @@ class FlaskTests(TestCase):
             self.assertEqual(resp.json["result"], "ok")
 
             resp = client.get("/game/guess?word=555")
-            self.assertEqual(resp.json["result"], "not-word")
+            self.assertEqual(resp.json["result"], "not-a-word")
