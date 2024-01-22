@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main>
+    <table>
+        {% for row in board %}
+        <tr>
+            {% for col in row %}
+            <td>
+                {{ col }}
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+    <form>
+        <label for="guessed-word">
+            Submit a guess:
+        </label>
+        <input id="guessed-word" type="text" name="guessed-word" />
+        <button>Submit</button>
+    </form>
+</main>
+{% endblock %}
