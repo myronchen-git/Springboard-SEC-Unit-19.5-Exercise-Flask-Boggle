@@ -13,15 +13,22 @@ app.config["DEBUG_TB_HOSTS"] = ["dont-show-debug-toolbar"]
 class FlaskTests(TestCase):
     """Tests for the game."""
 
+    def setUp(self):
+        self.client = app.test_client()
+
     def test_root_redirect(self):
-        with app.test_client() as client:
+        """Tests for redirection."""
+
+        with self.client as client:
             resp = client.get("/")
 
             self.assertEqual(resp.status_code, 302)
             self.assertEqual(resp.location, "http://localhost/game")
 
     def test_board_creation(self):
-        with app.test_client() as client:
+        """Tests that the board is created in the HTML."""
+
+        with self.client as client:
             resp = client.get("/game")
             html = resp.get_data(as_text=True)
 
@@ -32,7 +39,9 @@ class FlaskTests(TestCase):
             self.assertIn("<td>", html)
 
     def test_board_saving_in_session(self):
-        with app.test_client() as client:
+        """Tests that the board is saved to a Flask session cookie."""
+
+        with self.client as client:
             resp = client.get("/game")
 
             self.assertEqual(resp.status_code, 200)
@@ -42,7 +51,9 @@ class FlaskTests(TestCase):
             self.assertIn(session["board"][0][0], string.ascii_uppercase)
 
     def test_form_creation(self):
-        with app.test_client() as client:
+        """Tests that the form is created on the HTML."""
+
+        with self.client as client:
             resp = client.get("/game")
             html = resp.get_data(as_text=True)
 
@@ -52,7 +63,9 @@ class FlaskTests(TestCase):
             self.assertIn('name="guessed-word"', html)
 
     def test_header_creation(self):
-        with app.test_client() as client:
+        """Tests that all the things in the header are created."""
+
+        with self.client as client:
             resp = client.get("/game")
             html = resp.get_data(as_text=True)
 
@@ -62,7 +75,7 @@ class FlaskTests(TestCase):
             self.assertIn('id="points"', html)
 
     def test_word_submission(self):
-        with app.test_client() as client:
+        with self.client as client:
             with client.session_transaction() as change_session:
                 change_session["board"] = [
                     ["A", "A", "A", "A", "A"],
