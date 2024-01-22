@@ -48,5 +48,28 @@ class FlaskTests(TestCase):
 
             self.assertEqual(resp.status_code, 200)
 
-            self.assertIn("<form>", html)
-            self.assertIn('name="word"', html)
+            self.assertIn("</form>", html)
+            self.assertIn('name="guessed-word"', html)
+
+    def test_word_submission(self):
+        with app.test_client() as client:
+            with client.session_transaction() as change_session:
+                change_session["board"] = [
+                    ["A", "A", "A", "A", "A"],
+                    ["A", "A", "A", "A", "A"],
+                    ["C", "A", "A", "A", "A"],
+                    ["A", "A", "A", "A", "A"],
+                    ["T", "A", "A", "A", "A"],
+                ]
+
+            resp = client.get("/game/guess?word=zzzz")
+            self.assertEqual(resp.json["result"], "not-word")
+
+            resp = client.get("/game/guess?word=zoozoo")
+            self.assertEqual(resp.json["result"], "not-on-board")
+
+            resp = client.get("/game/guess?word=cat")
+            self.assertEqual(resp.json["result"], "ok")
+
+            resp = client.get("/game/guess?word=555")
+            self.assertEqual(resp.json["result"], "not-word")

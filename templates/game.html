@@ -13,12 +13,14 @@
         </tr>
         {% endfor %}
     </table>
-    <form>
-        <label for="guessed-word">
+    <form id="form-guess-word">
+        <label for="form-guess-word__input-guessed-word">
             Submit a guess:
         </label>
-        <input id="guessed-word" type="text" name="guessed-word" />
+        <input id="form-guess-word__input-guessed-word" type="text"
+            name="guessed-word" />
         <button>Submit</button>
     </form>
+    <div id="guess-result"></div>
 </main>
 {% endblock %}
