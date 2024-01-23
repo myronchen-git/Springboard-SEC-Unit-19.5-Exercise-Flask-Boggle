@@ -46,6 +46,7 @@ class FlaskTests(TestCase):
 
             self.assertEqual(resp.status_code, 200)
 
+            self.assertIn("board", session)
             self.assertEqual(len(session["board"]), 5)
             self.assertEqual(len(session["board"][0]), 5)
             self.assertIn(session["board"][0][0], string.ascii_uppercase)
