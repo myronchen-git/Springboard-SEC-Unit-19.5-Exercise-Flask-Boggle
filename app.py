@@ -31,7 +31,12 @@ def route_game():
 
     session["board"] = board
 
-    return render_template("game.html", board=board)
+    return render_template(
+        "game.html",
+        board=board,
+        games_played=session.get("games_played", 0),
+        high_score=session.get("high_score", 0),
+    )
 
 
 @app.route("/game/guess")
@@ -43,3 +48,24 @@ def route_guess():
 
     result = boggle_game.check_valid_word(session["board"], request.args["word"])
     return jsonify(result=result)
+
+
+@app.route("/game/highscore", methods=["post"])
+def route_highscore():
+    """Increments the number of games played and updates the high score.  Returns the high score."""
+
+    if request.json is not None:
+        points = request.json.get("points")
+
+        if points is not None and points >= 0:
+            session["games_played"] = session.get("games_played", 0) + 1
+
+            high_score = session.get("high_score", 0)
+            if points > high_score:
+                high_score = points
+
+            session["high_score"] = high_score
+
+            return jsonify({"highScore": high_score})
+
+    return "Need to pass positive integer points in JSON.", 400

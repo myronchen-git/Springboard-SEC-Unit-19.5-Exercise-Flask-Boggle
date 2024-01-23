@@ -88,10 +88,18 @@ class Game {
       seconds -= 1;
       Game.$timer.text(seconds);
       if (seconds <= 0) {
-        this.isEnabled = false;
         clearInterval(intervalObj);
+        this.endGame();
       }
     }, 1000);
+  }
+
+  async endGame() {
+    this.isEnabled = false;
+    const response = await axios.post("/game/highscore", {
+      points: this.points,
+    });
+    $("#high-score").text(response.data.highScore);
   }
 }
 
