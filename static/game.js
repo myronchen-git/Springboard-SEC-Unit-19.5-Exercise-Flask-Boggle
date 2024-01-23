@@ -1,12 +1,17 @@
 class Game {
   static $guessResult = $("#guess-result");
   static $guessInput = $("#form-guess-word__input-guessed-word");
+  static $timer = $("#timer");
 
-  constructor() {
+  constructor({ timer = 60 } = {}) {
     $("#form-guess-word").submit(this.handleSubmit.bind(this));
 
     this.points = 0;
     this.foundWords = new Set();
+
+    this.isEnabled = true;
+    Game.$timer.text(timer);
+    this.startTimer(timer);
   }
 
   /**
@@ -18,16 +23,21 @@ class Game {
   async handleSubmit(e) {
     e.preventDefault();
 
-    const word = Game.$guessInput.val();
-    const result = await this.checkWord(word);
+    if (this.isEnabled) {
+      const word = Game.$guessInput.val();
+      const result = await this.checkWord(word);
 
-    if (result === "ok" && !this.acceptSubmittedWord(word)) {
-      Game.$guessResult.text("already scored");
+      if (result === "ok" && !this.acceptSubmittedWord(word)) {
+        Game.$guessResult.text("already scored");
+      } else {
+        Game.$guessResult.text(result);
+      }
+
+      $("#points").text(this.points);
     } else {
-      Game.$guessResult.text(result);
+      alert("Game Over!  You can not guess any more words.");
     }
 
-    $("#points").text(this.points);
     Game.$guessInput.val("");
   }
 
@@ -67,8 +77,24 @@ class Game {
       return false;
     }
   }
+
+  /**
+   * Starts a timer that will countdown and display the amount of seconds that are left in the game.
+   *
+   * @param {Number} seconds The amount of seconds before the game ends.
+   */
+  startTimer(seconds) {
+    const intervalObj = setInterval(() => {
+      seconds -= 1;
+      Game.$timer.text(seconds);
+      if (seconds <= 0) {
+        this.isEnabled = false;
+        clearInterval(intervalObj);
+      }
+    }, 1000);
+  }
 }
 
 $(function () {
-  new Game();
+  new Game({ timer: 20 });
 });
