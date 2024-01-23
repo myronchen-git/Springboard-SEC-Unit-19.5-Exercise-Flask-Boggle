@@ -1,5 +1,6 @@
 class Game {
   static $guessResult = $("#guess-result");
+  static $guessInput = $("#form-guess-word__input-guessed-word");
 
   constructor() {
     $("#form-guess-word").submit(this.handleSubmit.bind(this));
@@ -17,7 +18,7 @@ class Game {
   async handleSubmit(e) {
     e.preventDefault();
 
-    const word = $("#form-guess-word__input-guessed-word").val();
+    const word = Game.$guessInput.val();
     const result = await this.checkWord(word);
 
     if (result === "ok" && !this.acceptSubmittedWord(word)) {
@@ -27,6 +28,7 @@ class Game {
     }
 
     $("#points").text(this.points);
+    Game.$guessInput.val("");
   }
 
   /**
