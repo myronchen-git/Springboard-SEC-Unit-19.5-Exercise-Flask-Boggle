@@ -41,7 +41,7 @@ def route_game():
 
 @app.route("/game/guess")
 def route_guess():
-    """Takes the word argument from the URL and checks if it is valid.  Returns a JSON."""
+    """Takes the word argument from the URL and checks if it is valid.  Returns a JSON with the result."""
 
     if not request.args.get("word", ""):
         return "URL word argument can not be empty.", 400

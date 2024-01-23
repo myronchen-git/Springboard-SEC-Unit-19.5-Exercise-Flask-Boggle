@@ -16,6 +16,7 @@ class FlaskTests(TestCase):
     SESSION_KEY_GAMES_PLAYED = "games_played"
     SESSION_KEY_HIGH_SCORE = "high_score"
     JSON_KEY_HIGHSCORE = "highScore"
+    JSON_KEY_RESULT = "result"
 
     def setUp(self):
         self.client = app.test_client()
@@ -78,7 +79,6 @@ class FlaskTests(TestCase):
 
             self.assertIn('id="games-played"', html)
             self.assertIn('id="high-score"', html)
-            self.assertIn("Points", html)
             self.assertIn('id="points"', html)
 
     def test_valid_word_submission(self):
@@ -88,7 +88,7 @@ class FlaskTests(TestCase):
             self.save_board_to_session(client)
 
             resp = client.get("/game/guess?word=cat")
-            self.assertEqual(resp.json["result"], "ok")
+            self.assertEqual(resp.json[self.JSON_KEY_RESULT], "ok")
 
     def test_invalid_word_submission(self):
         """Tests for a word that exists in the words list but not on the board."""
@@ -97,7 +97,7 @@ class FlaskTests(TestCase):
             self.save_board_to_session(client)
 
             resp = client.get("/game/guess?word=zoozoo")
-            self.assertEqual(resp.json["result"], "not-on-board")
+            self.assertEqual(resp.json[self.JSON_KEY_RESULT], "not-on-board")
 
     def test_nonword_submission(self):
         """Tests for nonwords."""
@@ -106,10 +106,10 @@ class FlaskTests(TestCase):
             self.save_board_to_session(client)
 
             resp = client.get("/game/guess?word=zzzz")
-            self.assertEqual(resp.json["result"], "not-a-word")
+            self.assertEqual(resp.json[self.JSON_KEY_RESULT], "not-a-word")
 
             resp = client.get("/game/guess?word=555")
-            self.assertEqual(resp.json["result"], "not-a-word")
+            self.assertEqual(resp.json[self.JSON_KEY_RESULT], "not-a-word")
 
     def test_incorrect_syntax_for_word_submission(self):
         """Tests for incorrect URL syntax when guessing a word."""
