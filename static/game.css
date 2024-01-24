@@ -14,6 +14,30 @@ body {
   background-size: 100% 100%;
 }
 
+.title {
+  text-align: center;
+  margin-top: 10%;
+  margin-bottom: 5%;
+  font-size: 5rem;
+  font-family: Verdana, Arial, sans-serif;
+}
+
+.title > span {
+  display: inline-block;
+}
+
+.boggle-B {
+  rotate: -10deg;
+}
+
+.boggle-g {
+  rotate: 15deg;
+}
+
+.boggle-l {
+  rotate: 10deg;
+}
+
 .data-card {
   background-color: var(--color1);
 }
@@ -66,4 +90,41 @@ form label,
   visibility: hidden;
   opacity: 0;
   transition: visibility 0s 2s, opacity 2s linear;
+}
+
+#form-config {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+}
+
+#form-config > h1 {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+#form-config > div {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1rem;
+}
+
+#form-config > button {
+  margin-top: 1rem;
+  width: 8rem;
+}
+
+#form-config label {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+#form-config input {
+  border-radius: 0.5rem;
+  width: 10rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
 }

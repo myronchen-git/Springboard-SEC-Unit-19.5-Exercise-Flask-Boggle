@@ -1,13 +1,41 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<form id="form-config" action="/game">
-    <label for="form-config__input-size">Select size:</label>
-    <input id="form-config__input-size" type="number" name="size" value="5"
-        required />
-    <label>Set allotted time:</label>
-    <input id="form-config__input-time" type="number" name="timer" value="60"
-        required />
-    <button>Start</button>
-</form>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="title">
+                <span class="boggle-B">B</span>
+                o
+                <span class="boggle-g">g</span>
+                g
+                <span class="boggle-l">l</span>
+                e
+            </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-md-10 col-lg-8 col-xl-6 mx-auto">
+            <form id="form-config" action="/game">
+                <div>
+                    <label for="form-config__input-size">Select size:</label>
+                    <input id="form-config__input-size"
+                        type="number"
+                        name="size"
+                        value="5"
+                        required />
+                </div>
+                <div>
+                    <label>Set allotted time:</label>
+                    <input id="form-config__input-time"
+                        type="number"
+                        name="timer"
+                        value="60"
+                        required />
+                </div>
+                <button class="btn btn-lg btn-primary">Start</button>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}
