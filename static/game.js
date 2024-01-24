@@ -82,6 +82,10 @@ class Game {
     }
   }
 
+  /**
+   * Shows the text for the guess result, then fades it out.  This can be repeatedly called, and the previous timeout
+   * will be removed.
+   */
   fadeGuessResult() {
     Game.$guessResult.removeClass("hidden");
     Game.$guessResult.addClass("show");
@@ -108,6 +112,9 @@ class Game {
     }, 1000);
   }
 
+  /**
+   * Disables the game, sends the score to the server, and updates the high score on the webpage.
+   */
   async endGame() {
     this.isEnabled = false;
     const response = await axios.post("/game/highscore", {
