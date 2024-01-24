@@ -58,6 +58,8 @@ def route_guess():
 def route_highscore():
     """Increments the number of games played and updates the high score.  Returns the high score."""
 
+    session.permanent = True
+
     if request.json is not None:
         points = request.json.get("points")
 

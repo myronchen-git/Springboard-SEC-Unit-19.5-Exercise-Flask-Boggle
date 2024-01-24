@@ -224,6 +224,16 @@ class FlaskTests(TestCase):
             self.assertEqual(session[self.SESSION_KEY_GAMES_PLAYED], 1)
             self.assertEqual(session[self.SESSION_KEY_HIGH_SCORE], 0)
 
+    def test_highscore_post_for_permanent_session(self):
+        """Tests to see if the Flask session persists, or in other words, won't get deleted after the browser is
+        closed."""
+
+        with self.client as client:
+            resp = client.post("/game/highscore", json={"points": 4})
+
+            self.assertEqual(resp.status_code, 200)
+            self.assertTrue(session.permanent)
+
     # ==================================================
 
     def save_board_to_session(self, client):
