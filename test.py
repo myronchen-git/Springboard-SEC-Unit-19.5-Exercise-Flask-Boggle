@@ -39,9 +39,9 @@ class FlaskTests(TestCase):
 
             self.assertEqual(resp.status_code, 200)
 
-            self.assertIn("<table>", html)
-            self.assertIn("<tr>", html)
-            self.assertIn("<td>", html)
+            self.assertIn("<table", html)
+            self.assertIn("<tr", html)
+            self.assertIn("<td", html)
 
     def test_board_saving_in_session(self):
         """Tests that the board is saved to a Flask session cookie."""

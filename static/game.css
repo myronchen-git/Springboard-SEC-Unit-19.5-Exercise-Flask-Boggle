@@ -1,0 +1,69 @@
+:root {
+  --color1: deepskyblue;
+  --color1--hover: #0099cc;
+  --color1--active: #007399;
+  --color2: rgb(242, 242, 242);
+  --color2--trans: rgba(242, 242, 242, 0.4);
+}
+
+body {
+  /* background-color: BlanchedAlmond; */
+  background-image: url("background.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+}
+
+.data-card {
+  background-color: var(--color1);
+}
+
+.data-card__number {
+  background-color: var(--color2);
+}
+
+.gameboard {
+  background-color: var(--color1);
+  border-collapse: separate;
+  border-spacing: 1rem;
+  max-height: 30rem;
+  max-width: 30rem;
+  aspect-ratio: 1 / 1;
+}
+
+.gameboard td {
+  height: 3rem;
+  width: 3rem;
+  background-color: ivory;
+}
+
+.btn {
+  background-color: var(--color1);
+  border-color: var(--color1);
+}
+
+.btn:hover {
+  background-color: var(--color1--hover);
+  border-color: var(--color1--hover);
+}
+
+.btn:active {
+  background-color: var(--color1--active) !important;
+  border-color: var(--color1--active) !important;
+}
+
+form label,
+#guess-result {
+  background-color: var(--color2--trans);
+}
+
+.show {
+  visibility: visible;
+  opacity: 1;
+}
+
+.hidden {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 2s, opacity 2s linear;
+}

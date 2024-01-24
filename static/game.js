@@ -12,6 +12,8 @@ class Game {
     this.isEnabled = true;
     Game.$timer.text(timer);
     this.startTimer(timer);
+
+    this.resultTimeoutId = 0;
   }
 
   /**
@@ -32,6 +34,7 @@ class Game {
       } else {
         Game.$guessResult.text(result);
       }
+      this.fadeGuessResult();
 
       $("#points").text(this.points);
     } else {
@@ -76,6 +79,16 @@ class Game {
     } else {
       return false;
     }
+  }
+
+  fadeGuessResult() {
+    Game.$guessResult.removeClass("hidden");
+    Game.$guessResult.addClass("show");
+
+    clearTimeout(this.resultTimeoutId);
+    this.resultTimeoutId = setTimeout(() => {
+      Game.$guessResult.toggleClass("hidden show");
+    }, 2000);
   }
 
   /**

@@ -2,43 +2,79 @@
 
 {% block content %}
 <header>
-    <div>
-        Games Played
-        <div id="games-played">{{ games_played }}</div>
-    </div>
-    <div>
-        High Score
-        <div id="high-score">{{ high_score }}</div>
-    </div>
-    <div>
-        Points
-        <div id="points">0</div>
-    </div>
-    <div>
-        Time
-        <div id="timer">--</div>
+    <div class="container py-2">
+        <div class="row py-2">
+            <div
+                class="data-card col-5 col-md-2 py-2 text-center text-nowrap bg-gradient rounded-4">
+                Games Played
+                <div id="games-played"
+                    class="data-card__number m-2 p-1 rounded-3">{{
+                    games_played
+                    }}</div>
+            </div>
+            <div class="col col-md-8"></div>
+            <div
+                class="data-card col-5 col-md-2 py-2 text-center text-nowrap bg-gradient rounded-4">
+                High Score
+                <div id="high-score" class="data-card__number m-2 p-1 rounded-3">{{
+                    high_score }}</div>
+            </div>
+        </div>
+        <div class="row py-2">
+            <div
+                class="data-card col-5 col-md-2 py-2 text-center text-nowrap bg-gradient rounded-4">
+                Time
+                <div id="timer" class="data-card__number m-2 p-1 rounded-3">--</div>
+            </div>
+            <div class="col col-md-8"></div>
+            <div
+                class="data-card col-5 col-md-2 py-2 text-center text-nowrap bg-gradient rounded-4">
+                Points
+                <div id="points" class="data-card__number m-2 p-1 rounded-3">0</div>
+            </div>
+        </div>
     </div>
 </header>
 <main>
-    <table>
-        {% for row in board %}
-        <tr>
-            {% for col in row %}
-            <td>
-                {{ col }}
-            </td>
-            {% endfor %}
-        </tr>
-        {% endfor %}
-    </table>
-    <form id="form-guess-word">
-        <label for="form-guess-word__input-guessed-word">
-            Submit a guess:
-        </label>
-        <input id="form-guess-word__input-guessed-word" type="text"
-            name="guessed-word" required />
-        <button>Submit</button>
-    </form>
-    <div id="guess-result"></div>
+    <div class="container-md">
+        <div class="row">
+            <div class="col col-lg-6 mx-auto">
+                <table
+                    class="gameboard table table-bordered align-middle text-center mx-auto my-4 rounded-4">
+                    <tbody>
+                        {% for row in board %}
+                        <tr>
+                            {% for col in row %}
+                            <td class="rounded-3 fs-2">
+                                {{ col }}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="container-md">
+        <div class="row">
+            <div class="col-8 col-sm-4 col-xl-3 mx-auto text-center">
+                <form id="form-guess-word"
+                    class="d-flex flex-column p-1 mx-auto">
+                    <label for="form-guess-word__input-guessed-word"
+                        class="p-1 m-1 rounded-2 text-center">
+                        Submit a guess:
+                    </label>
+                    <input id="form-guess-word__input-guessed-word"
+                        class="m-1 rounded-2"
+                        type="text"
+                        name="guessed-word" required autofocus />
+                    <button class="btn btn-primary m-1">Submit</button>
+                </form>
+                <span id="guess-result"
+                    class="text-center rounded-1"></span>
+            </div>
+        </div>
+    </div>
 </main>
 {% endblock %}
