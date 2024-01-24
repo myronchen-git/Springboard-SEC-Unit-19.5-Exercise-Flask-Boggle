@@ -38,8 +38,6 @@ class Game {
       this.fadeGuessResult();
 
       $("#points").text(this.points);
-    } else {
-      alert("Game Over!  You can not guess any more words.");
     }
 
     Game.$guessInput.val("");
@@ -113,7 +111,8 @@ class Game {
   }
 
   /**
-   * Disables the game, sends the score to the server, and updates the high score on the webpage.
+   * Disables the game, sends the score to the server, updates the high score on the webpage, and inform users that the
+   * game is over.
    */
   async endGame() {
     this.isEnabled = false;
@@ -121,6 +120,7 @@ class Game {
       points: this.points,
     });
     $("#high-score").text(response.data.highScore);
+    alert("Game Over!");
   }
 }
 
