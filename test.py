@@ -1,3 +1,4 @@
+import re
 import string
 from unittest import TestCase
 
@@ -21,17 +22,20 @@ class FlaskTests(TestCase):
     def setUp(self):
         self.client = app.test_client()
 
-    def test_root_redirect(self):
-        """Tests for redirection."""
+    def test_start_page_creation(self):
+        """Tests for creation of start page."""
 
         with self.client as client:
             resp = client.get("/")
+            html = resp.get_data(as_text=True)
 
-            self.assertEqual(resp.status_code, 302)
-            self.assertEqual(resp.location, "http://localhost/game")
+            self.assertEqual(resp.status_code, 200)
 
-    def test_board_creation(self):
-        """Tests that the board is created in the HTML."""
+            self.assertIn('name="size"', html)
+            self.assertIn('name="timer"', html)
+
+    def test_board_creation_with_no_url_arguments(self):
+        """Tests that the board is created in the HTML when given no URL arguments."""
 
         with self.client as client:
             resp = client.get("/game")
@@ -42,6 +46,20 @@ class FlaskTests(TestCase):
             self.assertIn("<table", html)
             self.assertIn("<tr", html)
             self.assertIn("<td", html)
+
+    def test_board_creation_when_given_url_arguments(self):
+        """Tests that the board is created in the HTML when given parameters."""
+
+        with self.client as client:
+            resp = client.get("/game?size=6&timer=34")
+            html = resp.get_data(as_text=True)
+
+            self.assertEqual(resp.status_code, 200)
+
+            self.assertIn("<table", html)
+            self.assertIn("<tr", html)
+            self.assertIn("<td", html)
+            self.assertRegex(html, r"id=\"timer\".*>34</div>")
 
     def test_board_saving_in_session(self):
         """Tests that the board is saved to a Flask session cookie."""

@@ -1,7 +1,8 @@
+const $timer = $("#timer");
+
 class Game {
   static $guessResult = $("#guess-result");
   static $guessInput = $("#form-guess-word__input-guessed-word");
-  static $timer = $("#timer");
 
   constructor({ timer = 60 } = {}) {
     $("#form-guess-word").submit(this.handleSubmit.bind(this));
@@ -10,7 +11,7 @@ class Game {
     this.foundWords = new Set();
 
     this.isEnabled = true;
-    Game.$timer.text(timer);
+    $timer.text(timer);
     this.startTimer(timer);
 
     this.resultTimeoutId = 0;
@@ -99,7 +100,7 @@ class Game {
   startTimer(seconds) {
     const intervalObj = setInterval(() => {
       seconds -= 1;
-      Game.$timer.text(seconds);
+      $timer.text(seconds);
       if (seconds <= 0) {
         clearInterval(intervalObj);
         this.endGame();
@@ -117,5 +118,5 @@ class Game {
 }
 
 $(function () {
-  new Game({ timer: 20 });
+  new Game({ timer: Number($timer.text()) });
 });

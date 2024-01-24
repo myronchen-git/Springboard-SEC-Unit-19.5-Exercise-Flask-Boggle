@@ -20,14 +20,17 @@ boggle_game = Boggle()
 def route_root():
     """Currently redirects to the game.  In the future, this will display a page to input board size."""
 
-    return redirect("/game")
+    return render_template("index.html")
 
 
 @app.route("/game")
 def route_game():
     """Displays the game board and a form to submit a word."""
 
-    board = boggle_game.make_board()
+    size = int(request.args.get("size", 5))
+    timer = int(request.args.get("timer", 60))
+
+    board = boggle_game.make_board(size)
 
     session["board"] = board
 
@@ -36,6 +39,7 @@ def route_game():
         board=board,
         games_played=session.get("games_played", 0),
         high_score=session.get("high_score", 0),
+        timer=timer,
     )
 
 

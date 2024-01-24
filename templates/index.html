@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form id="form-config" action="/game">
+    <label for="form-config__input-size">Select size:</label>
+    <input id="form-config__input-size" type="number" name="size" value="5"
+        required />
+    <label>Set allotted time:</label>
+    <input id="form-config__input-time" type="number" name="timer" value="60"
+        required />
+    <button>Start</button>
+</form>
+{% endblock %}
